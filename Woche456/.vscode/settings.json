@@ -1,0 +1,10 @@
+{
+    "makefile.extensionOutputFolder": "./.vscode",
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "e:\\Dev\\Studium\\Test\\Woche456\\bin",
+            "binaryPath": "e:\\Dev\\Studium\\Test\\Woche456\\bin\\datastructures",
+            "binaryArgs": []
+        }
+    ]
+}

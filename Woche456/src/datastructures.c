@@ -18,7 +18,7 @@
 #include "dhbwstudenttree.h"
 #include "dhbwstudentmap.h"
 
- //some string constants
+//some string constants
 static const char TRUETEXT[] = "Passed";
 static const char FALSETEXT[] = "FAILED";
 static const char DS_LIST[] = "List";
@@ -64,21 +64,21 @@ static const char OP_SORTED_LIST[] = "To sorted list";
 static const char OP_DEPTH_UNBALANCED[] = "Depth (unbalanced)";
 static const char OP_DEPTH_BALANCED[] = "Depth (balanced)";
 
-void outputBenchmarkScore(const char* datastructure, const char* operation,
-	clock_t begin, clock_t end) {
+void outputBenchmarkScore(const char *datastructure, const char *operation,
+		clock_t begin, clock_t end) {
 	double time = ((end - begin) * 1000.0) / CLOCKS_PER_SEC;
 	printf("|%-10s|%-30s|%10.2f|\n", datastructure, operation,
-		time);
+				time);
 }
 
-void outputTestResult(const char* datastructure, const char* operation,
-	bool result, Student_p element) {
+void outputTestResult(const char *datastructure, const char *operation,
+bool result, Student_p element) {
 	printf("|%-10s|%-30s|%-6s|%-20s|\n", datastructure, operation,
-		(result ? TRUETEXT : FALSETEXT),
-		element != NULL ? toString(element) : "");
+			(result ? TRUETEXT : FALSETEXT),
+			element != NULL ? toString(element) : "");
 }
 
-bool StudentLTest(StudentLP* inputList) {
+bool StudentLTest(StudentLP *inputList) {
 
 	bool result = true;
 
@@ -99,23 +99,22 @@ bool StudentLTest(StudentLP* inputList) {
 
 	if (result) {
 
-		StudentLP current = NULL;
-		current = *inputList;
+		StudentLP current = *inputList;
 
 		while (current != NULL) {
 			Student_p current_element = current->student;
 			StudentLP found_element = StudentLFindByMatr(inputList,
-				current_element->matrnr);
+					current_element->matrnr);
 			if (found_element == NULL
-				|| !StudentEquals(current_element,
-					found_element->student)) {
+					|| !StudentEquals(current_element,
+							found_element->student)) {
 				result = false;
 				break;
 			}
 			current = current->next;
 		}
 		outputTestResult(DS_LIST, OP_FINDMATRIKEL, result,
-			current != NULL ? current->student : NULL);
+				current != NULL ? current->student : NULL);
 	}
 
 	if (result) {
@@ -123,7 +122,7 @@ bool StudentLTest(StudentLP* inputList) {
 		StudentLP found_element = StudentLFindByMatr(inputList, 1234567);
 		result = found_element == NULL;
 		outputTestResult(DS_LIST, OP_FINDMATRIKELNONEXIST, result,
-			found_element != NULL ? found_element->student : NULL);
+				found_element != NULL ? found_element->student : NULL);
 	}
 
 	//test finding of existing/nonexisting by name
@@ -135,33 +134,33 @@ bool StudentLTest(StudentLP* inputList) {
 		while (current != NULL) {
 			Student_p current_element = current->student;
 			StudentLP found_element = StudentLFindByName(inputList,
-				current_element->lastname);
+					current_element->lastname);
 			if (found_element == NULL
-				|| !(strcmp(current_element->lastname,
-					found_element->student->lastname) == 0)) {
+					|| !(strcmp(current_element->lastname,
+							found_element->student->lastname)==0)) {
 				result = false;
 				break;
 			}
 			current = current->next;
 		}
 		outputTestResult(DS_LIST, OP_FINDNAME, result,
-			current != NULL ? current->student : NULL);
+				current != NULL ? current->student : NULL);
 	}
 
 	if (result) {
 		//Bielefeld doesn't exist
 		StudentLP found_element = StudentLFindByName(inputList,
-			"MrBielefeld404");
+				"MrBielefeld404");
 		result = found_element == NULL;
 		outputTestResult(DS_LIST, OP_FINDNAMENONEXIST, result,
-			found_element != NULL ? found_element->student : NULL);
+				found_element != NULL ? found_element->student : NULL);
 	}
 
 	//test sorted insert
 
 	if (result) {
 		StudentLP sorted_students_anchor = NULL;
-		StudentLP* sorted_students = &sorted_students_anchor;
+		StudentLP *sorted_students = &sorted_students_anchor;
 
 		StudentLP current = *inputList;
 
@@ -187,12 +186,12 @@ bool StudentLTest(StudentLP* inputList) {
 		Student_p second_student = second_element->student;
 
 		StudentLP compare_element = StudentLExtractStudent(inputList,
-			second_student);
+				second_student);
 
 		int lengthAfter = StudentLSize(inputList);
 
 		result = second_element == compare_element
-			&& (lengthAfter == lengthBefore - 1);
+				&& (lengthAfter == lengthBefore - 1);
 		outputTestResult(DS_LIST, OP_EXTRACT_SECOND, result, second_student);
 
 		StudentLPFree(compare_element);
@@ -205,12 +204,12 @@ bool StudentLTest(StudentLP* inputList) {
 		Student_p first_student = first_element->student;
 
 		StudentLP compare_element = StudentLExtractStudent(inputList,
-			first_student);
+				first_student);
 
 		int lengthAfter = StudentLSize(inputList);
 
 		result = first_element == compare_element
-			&& (lengthAfter == lengthBefore - 1);
+				&& (lengthAfter == lengthBefore - 1);
 		outputTestResult(DS_LIST, OP_EXTRACT_FIRST, result, first_student);
 
 		StudentLPFree(compare_element);
@@ -227,12 +226,12 @@ bool StudentLTest(StudentLP* inputList) {
 		Student_p last_student = last_element->student;
 
 		StudentLP compare_element = StudentLExtractStudent(inputList,
-			last_student);
+				last_student);
 
 		int lengthAfter = StudentLSize(inputList);
 
 		result = last_element == compare_element
-			&& (lengthAfter == lengthBefore - 1);
+				&& (lengthAfter == lengthBefore - 1);
 		outputTestResult(DS_LIST, OP_EXTRACT_LAST, result, last_student);
 
 		StudentLPFree(compare_element);
@@ -241,18 +240,20 @@ bool StudentLTest(StudentLP* inputList) {
 	if (result) {
 
 		StudentLP current_element = (*inputList);
-		Student_p current_student = NULL;
+		Student_p current_student;
 		while (current_element != NULL) {
 
 			int lengthBefore = StudentLSize(inputList);
 
 			current_student = current_element->student;
 
-			StudentLP compare_element = StudentLExtractStudent(inputList,current_student);
+			StudentLP compare_element = StudentLExtractStudent(inputList,
+					current_student);
 
 			int lengthAfter = StudentLSize(inputList);
 
-			result = current_element == compare_element && (lengthAfter == lengthBefore - 1);
+			result = current_element == compare_element
+					&& (lengthAfter == lengthBefore - 1);
 			if (!result) {
 				break;
 			}
@@ -260,14 +261,14 @@ bool StudentLTest(StudentLP* inputList) {
 			current_element = current_element->next;
 			StudentLPFree(compare_element);
 		}
-		outputTestResult(DS_LIST, OP_EXTRACT_ALL, result,			result ? NULL : current_student);
+		outputTestResult(DS_LIST, OP_EXTRACT_ALL, result,
+				result ? NULL : current_student);
 
 	}
 
 	if (result) {
 		printf("%s -> all tests %s\n\n", DS_LIST, TRUETEXT);
-	}
-	else {
+	} else {
 		printf("%s -> test aborted after %s\n\n", DS_LIST, FALSETEXT);
 	}
 
@@ -275,13 +276,13 @@ bool StudentLTest(StudentLP* inputList) {
 }
 
 
-bool StudentTTest(StudentLP* inputList) {
+bool StudentTTest(StudentLP *inputList) {
 
 	bool result = true;
 
 	printf("\n\n%s -> starting tests\n", DS_TREE);
 
-	StudentTP* tree = malloc(sizeof(StudentTP));
+	StudentTP *tree = malloc(sizeof(StudentTP));
 	*tree = NULL;
 
 	//test create empty
@@ -316,7 +317,7 @@ bool StudentTTest(StudentLP* inputList) {
 			current = current->next;
 		}
 		outputTestResult(DS_TREE, OP_INSERT_SIZE, result,
-			current != NULL ? current->student : NULL);
+				current != NULL ? current->student : NULL);
 	}
 
 	//test contains
@@ -334,7 +335,7 @@ bool StudentTTest(StudentLP* inputList) {
 			current = current->next;
 		}
 		outputTestResult(DS_TREE, OP_CONTAINS, result,
-			current != NULL ? current->student : NULL);
+				current != NULL ? current->student : NULL);
 	}
 
 	if (result) {
@@ -353,17 +354,17 @@ bool StudentTTest(StudentLP* inputList) {
 		while (current != NULL) {
 			Student_p current_element = current->student;
 			StudentTP found_element = StudentTFindByMatr(tree,
-				current_element->matrnr);
+					current_element->matrnr);
 			if (found_element == NULL
-				|| !StudentEquals(current_element,
-					found_element->student)) {
+					|| !StudentEquals(current_element,
+							found_element->student)) {
 				result = false;
 				break;
 			}
 			current = current->next;
 		}
 		outputTestResult(DS_TREE, OP_FINDMATRIKEL, result,
-			current != NULL ? current->student : NULL);
+				current != NULL ? current->student : NULL);
 	}
 
 	if (result) {
@@ -371,7 +372,7 @@ bool StudentTTest(StudentLP* inputList) {
 		StudentLP found_element = StudentLFindByMatr(inputList, 1234567);
 		result = found_element == NULL;
 		outputTestResult(DS_TREE, OP_FINDMATRIKELNONEXIST, result,
-			found_element != NULL ? found_element->student : NULL);
+				found_element != NULL ? found_element->student : NULL);
 	}
 
 	//test finding of existing/nonexisting by name
@@ -383,30 +384,30 @@ bool StudentTTest(StudentLP* inputList) {
 		while (current != NULL) {
 			Student_p current_element = current->student;
 			StudentTP found_element = StudentTFindByName(tree,
-				current_element->lastname);
+					current_element->lastname);
 			if (found_element == NULL
-				|| !(strcmp(current_element->lastname,
-					found_element->student->lastname) == 0)) {
+								|| !(strcmp(current_element->lastname,
+										found_element->student->lastname)==0)) {
 				result = false;
 				break;
 			}
 			current = current->next;
 		}
 		outputTestResult(DS_TREE, OP_FINDNAME, result,
-			current != NULL ? current->student : NULL);
+				current != NULL ? current->student : NULL);
 	}
 
 	if (result) {
 		//Bielefeld doesn't exist
 		StudentLP found_element = StudentLFindByName(inputList,
-			"MrBielefeld404");
+				"MrBielefeld404");
 		result = found_element == NULL;
 		outputTestResult(DS_TREE, OP_FINDNAMENONEXIST, result,
-			found_element != NULL ? found_element->student : NULL);
+				found_element != NULL ? found_element->student : NULL);
 	}
 
 	//test sorted output
-	StudentLP* sortedList = NULL;
+	StudentLP *sortedList;
 	if (result) {
 
 		sortedList = StudentTToSortedList(tree);
@@ -419,7 +420,7 @@ bool StudentTTest(StudentLP* inputList) {
 
 	if (result) {
 
-		StudentTP* unbalanced_tree = malloc(sizeof(StudentTP));
+		StudentTP *unbalanced_tree = malloc(sizeof(StudentTP));
 		*unbalanced_tree = NULL;
 
 		int originalSize = 0;
@@ -438,7 +439,7 @@ bool StudentTTest(StudentLP* inputList) {
 			current = current->next;
 		}
 		outputTestResult(DS_TREE, OP_DEPTH_UNBALANCED, result,
-			current != NULL ? current->student : NULL);
+				current != NULL ? current->student : NULL);
 
 		StudentTFree(unbalanced_tree);
 	}
@@ -447,7 +448,7 @@ bool StudentTTest(StudentLP* inputList) {
 
 	if (result) {
 
-		StudentTP* balanced_tree = malloc(sizeof(StudentTP));
+		StudentTP *balanced_tree = malloc(sizeof(StudentTP));
 		*balanced_tree = NULL;
 
 		int originalSize = 0;
@@ -458,7 +459,7 @@ bool StudentTTest(StudentLP* inputList) {
 
 		for (int i = 0; i < sizeof(balanced_matrs) / sizeof(int); i++) {
 			StudentTInsertSorted(balanced_tree,
-				generateTestStudent(balanced_matrs[i]));
+					generateTestStudent(balanced_matrs[i]));
 		}
 
 		result = StudentTDepth(balanced_tree) == balanced_matrs_depth;
@@ -474,15 +475,14 @@ bool StudentTTest(StudentLP* inputList) {
 
 	if (result) {
 		printf("%s -> all tests %s\n\n", DS_TREE, TRUETEXT);
-	}
-	else {
+	} else {
 		printf("%s -> test aborted after %s\n\n", DS_TREE, FALSETEXT);
 	}
 
 	return result;
 }
 
-bool StudentMTest(StudentLP* inputList) {
+bool StudentMTest(StudentLP *inputList) {
 
 	bool result = true;
 
@@ -522,7 +522,7 @@ bool StudentMTest(StudentLP* inputList) {
 
 		}
 		outputTestResult(DS_MAP, OP_INSERT_SIZE, result,
-			current != NULL ? current->student : NULL);
+				current != NULL ? current->student : NULL);
 
 		if (result) {
 			int oldsize = map->maxsize;
@@ -538,7 +538,7 @@ bool StudentMTest(StudentLP* inputList) {
 				Student_p current_element = current->student;
 				originalSize++;
 				bool insertResult = StudentMInsert(map,
-					deepCopy(current_element));
+						deepCopy(current_element));
 
 				if (!insertResult || StudentMSize(map) != originalSize) {
 					result = false;
@@ -548,7 +548,7 @@ bool StudentMTest(StudentLP* inputList) {
 				current = current->next;
 			}
 			outputTestResult(DS_MAP, OP_INSERT_REHASH, result,
-				current != NULL ? current->student : NULL);
+					current != NULL ? current->student : NULL);
 		}
 	}
 
@@ -562,14 +562,14 @@ bool StudentMTest(StudentLP* inputList) {
 			Student_p current_element = current->student;
 			Student_p found_element = StudentMFind(map, current_element);
 			if (found_element == NULL
-				|| !StudentEquals(current_element, found_element)) {
+					|| !StudentEquals(current_element, found_element)) {
 				result = false;
 				break;
 			}
 			current = current->next;
 		}
 		outputTestResult(DS_MAP, OP_FIND, result,
-			current != NULL ? current->student : NULL);
+				current != NULL ? current->student : NULL);
 	}
 
 	if (result) {
@@ -578,7 +578,7 @@ bool StudentMTest(StudentLP* inputList) {
 		Student_p found_element = StudentMFind(map, test);
 		result = found_element == NULL;
 		outputTestResult(DS_MAP, OP_FINDNONEXIST, result,
-			found_element != NULL ? found_element : NULL);
+				found_element != NULL ? found_element : NULL);
 	}
 
 	//test inserting already isnerted elements again
@@ -601,13 +601,13 @@ bool StudentMTest(StudentLP* inputList) {
 			current = current->next;
 		}
 		outputTestResult(DS_MAP, OP_INSERT_EXISTING, result,
-			current != NULL ? current->student : NULL);
+				current != NULL ? current->student : NULL);
 	}
 
 	//test list
 
 	if (result) {
-		StudentLP* list;
+		StudentLP *list;
 		list = StudentMToList(map);
 
 		result = StudentLSize(list) == StudentLSize(inputList);
@@ -637,7 +637,7 @@ bool StudentMTest(StudentLP* inputList) {
 			current = current->next;
 		}
 		outputTestResult(DS_MAP, OP_INSERT_HASH_MATR, result,
-			current != NULL ? current->student : NULL);
+				current != NULL ? current->student : NULL);
 	}
 
 	if (result) {
@@ -660,7 +660,7 @@ bool StudentMTest(StudentLP* inputList) {
 			current = current->next;
 		}
 		outputTestResult(DS_MAP, OP_INSERT_HASH_NAME, result,
-			current != NULL ? current->student : NULL);
+				current != NULL ? current->student : NULL);
 	}
 
 	if (result) {
@@ -683,15 +683,14 @@ bool StudentMTest(StudentLP* inputList) {
 			current = current->next;
 		}
 		outputTestResult(DS_MAP, OP_INSERT_HASH_BOTH, result,
-			current != NULL ? current->student : NULL);
+				current != NULL ? current->student : NULL);
 	}
 
 	free(map);
 
 	if (result) {
 		printf("%s -> all tests %s\n\n", DS_MAP, TRUETEXT);
-	}
-	else {
+	} else {
 		printf("%s -> test aborted after %s\n\n", DS_MAP, FALSETEXT);
 	}
 
@@ -700,7 +699,7 @@ bool StudentMTest(StudentLP* inputList) {
 
 
 
-void StudentLBenchmarkBuiltin(StudentLP* inputList) {
+void StudentLBenchmarkBuiltin(StudentLP *inputList) {
 
 	clock_t begin, end;
 
@@ -709,7 +708,7 @@ void StudentLBenchmarkBuiltin(StudentLP* inputList) {
 		begin = clock();
 
 		StudentLP list_anchor = NULL;
-		StudentLP* benchmark_list = &list_anchor;
+		StudentLP *benchmark_list = &list_anchor;
 
 		StudentLP current = *inputList;
 
@@ -729,7 +728,7 @@ void StudentLBenchmarkBuiltin(StudentLP* inputList) {
 		begin = clock();
 
 		StudentLP list_anchor = NULL;
-		StudentLP* benchmark_list = &list_anchor;
+		StudentLP *benchmark_list = &list_anchor;
 
 		StudentLP current = *inputList;
 
@@ -748,12 +747,12 @@ void StudentLBenchmarkBuiltin(StudentLP* inputList) {
 }
 
 
-void StudentLBenchmarkTasks(StudentLP* inputList) {
+void StudentLBenchmarkTasks(StudentLP *inputList) {
 
 	clock_t begin, end;
 
 	StudentLP list_anchor = NULL;
-	StudentLP* benchmark_list = &list_anchor;
+	StudentLP *benchmark_list = &list_anchor;
 
 	long long tmp = 0;
 
@@ -778,7 +777,7 @@ void StudentLBenchmarkTasks(StudentLP* inputList) {
 	{
 		begin = clock();
 
-		StudentLP current = *inputList;
+    	StudentLP current = *inputList;
 
 
 		while (current != NULL) {
@@ -795,7 +794,7 @@ void StudentLBenchmarkTasks(StudentLP* inputList) {
 	{
 		begin = clock();
 
-		StudentLP current = *inputList;
+    	StudentLP current = *inputList;
 
 		while (current != NULL) {
 			StudentLFindByName(benchmark_list, current->student->lastname);
@@ -810,18 +809,18 @@ void StudentLBenchmarkTasks(StudentLP* inputList) {
 
 
 
-void StudentTBenchmark(StudentLP* inputList) {
+void StudentTBenchmark(StudentLP *inputList) {
 
 	clock_t begin, end;
 
 	StudentLP list_anchor = NULL;
-	StudentLP* sorted_list = &list_anchor;
+	StudentLP *sorted_list = &list_anchor;
 
 
-	StudentTP* tree = malloc(sizeof(StudentTP));
+	StudentTP *tree = malloc(sizeof(StudentTP));
 	*tree = NULL;
 
-	//benchmark inserting sorted
+    //benchmark inserting sorted
 	{
 		begin = clock();
 
@@ -850,7 +849,7 @@ void StudentTBenchmark(StudentLP* inputList) {
 	{
 		begin = clock();
 
-		StudentLP current = *inputList;
+    	StudentLP current = *inputList;
 
 
 		while (current != NULL) {
@@ -867,7 +866,7 @@ void StudentTBenchmark(StudentLP* inputList) {
 	{
 		begin = clock();
 
-		StudentLP current = *inputList;
+    	StudentLP current = *inputList;
 
 		while (current != NULL) {
 			StudentTFindByName(tree, current->student->lastname);
@@ -878,58 +877,58 @@ void StudentTBenchmark(StudentLP* inputList) {
 		outputBenchmarkScore(DS_TREE, OP_FINDNAME, begin, end);
 	}
 
-	StudentTP* unbalanced_tree = malloc(sizeof(StudentTP));
-	*unbalanced_tree = NULL;
+	StudentTP *unbalanced_tree = malloc(sizeof(StudentTP));
+		*unbalanced_tree = NULL;
 
-	//benchmark inserting sorted
-	{
-		begin = clock();
+	    //benchmark inserting sorted
+		{
+			begin = clock();
 
-		StudentLP current = *sorted_list;
+			StudentLP current = *sorted_list;
 
-		while (current != NULL) {
-			StudentTInsertSorted(unbalanced_tree, deepCopy(current->student));
-			current = current->next;
-		}
+			while (current != NULL) {
+				StudentTInsertSorted(unbalanced_tree, deepCopy(current->student));
+				current = current->next;
+			}
 
-		end = clock();
-		outputBenchmarkScore(DS_TREE, OP_INSERT_UNBALANCED, begin, end);
-
-
-	}
+			end = clock();
+			outputBenchmarkScore(DS_TREE, OP_INSERT_UNBALANCED, begin, end);
 
 
-	//benchmark search by matrikel
-	{
-		begin = clock();
-
-		StudentLP current = *inputList;
-
-
-		while (current != NULL) {
-			StudentTFindByMatr(unbalanced_tree, current->student->matrnr);
-			current = current->next;
 		}
 
 
-		end = clock();
-		outputBenchmarkScore(DS_TREE, OP_FINDMATRIKEL_UNBALANCED, begin, end);
-	}
+		//benchmark search by matrikel
+		{
+			begin = clock();
 
-	//benchmark search by name
-	{
-		begin = clock();
+	    	StudentLP current = *inputList;
 
-		StudentLP current = *inputList;
 
-		while (current != NULL) {
-			StudentTFindByName(unbalanced_tree, current->student->lastname);
-			current = current->next;
+			while (current != NULL) {
+				StudentTFindByMatr(unbalanced_tree, current->student->matrnr);
+				current = current->next;
+			}
+
+
+			end = clock();
+			outputBenchmarkScore(DS_TREE, OP_FINDMATRIKEL_UNBALANCED, begin, end);
 		}
 
-		end = clock();
-		outputBenchmarkScore(DS_TREE, OP_FINDNAME_UNBALANCED, begin, end);
-	}
+		//benchmark search by name
+		{
+			begin = clock();
+
+	    	StudentLP current = *inputList;
+
+			while (current != NULL) {
+				StudentTFindByName(unbalanced_tree, current->student->lastname);
+				current = current->next;
+			}
+
+			end = clock();
+			outputBenchmarkScore(DS_TREE, OP_FINDNAME_UNBALANCED, begin, end);
+		}
 
 
 	StudentTFree(tree);
@@ -938,7 +937,7 @@ void StudentTBenchmark(StudentLP* inputList) {
 }
 
 
-void StudentMBenchmarkForHash(StudentLP* inputList, const char* hashInsertOPName, const char* hashFindOPName, int (*hashf)(Student_p student, int maxsize)) {
+void StudentMBenchmarkForHash(StudentLP *inputList, const char * hashInsertOPName, const char * hashFindOPName, int (*hashf)(Student_p student, int maxsize)) {
 
 	clock_t begin, end;
 
@@ -978,7 +977,7 @@ void StudentMBenchmarkForHash(StudentLP* inputList, const char* hashInsertOPName
 
 }
 
-void StudentMBenchmark(StudentLP* inputList) {
+void StudentMBenchmark(StudentLP *inputList) {
 
 	clock_t begin, end;
 
@@ -989,7 +988,7 @@ void StudentMBenchmark(StudentLP* inputList) {
 
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
 
 
 	clock_t begin, end;
@@ -998,7 +997,7 @@ int main(int argc, char* argv[]) {
 
 	if (argc != 2) {
 		fprintf(stderr, "Usage: %s [<file>|<number of random students>]\n",
-			argv[0]);
+				argv[0]);
 		exit(EXIT_FAILURE);
 	}
 
@@ -1006,52 +1005,51 @@ int main(int argc, char* argv[]) {
 	int amount = atoi(argv[1]);
 	printf("Amount=%d\n", amount);
 
-	StudentLP* inputList;
+	StudentLP *inputList;
 	if (amount > 0) {
 		inputList = generateTestData(amount, true);
-	}
-	else {
+	} else {
 		inputList = StudentsFromFile(argv[1]);
 	}
 
 	if (StudentLImplemented()) {
-		StudentLP* listForTest = deepLCopy(inputList);
+		StudentLP *listForTest = deepLCopy(inputList);
 		StudentLTest(listForTest);
 		StudentLFree(listForTest);
 	}
 
 	if (StudentTImplemented()) {
-		StudentLP* listForTest = deepLCopy(inputList);
+		StudentLP *listForTest = deepLCopy(inputList);
 		StudentTTest(listForTest);
 		StudentLFree(listForTest);
 	}
 
 	if (StudentMImplemented()) {
-		StudentLP* listForTest = deepLCopy(inputList);
+		StudentLP *listForTest = deepLCopy(inputList);
 		StudentMTest(listForTest);
 		StudentLFree(listForTest);
 	}
 
 	{//builtin benchmak
-		StudentLP* listForTest = deepLCopy(inputList);
+		StudentLP *listForTest = deepLCopy(inputList);
 		StudentLBenchmarkBuiltin(listForTest);
 		StudentLFree(listForTest);
 	}
 
 	if (StudentLImplemented()) {
-		StudentLP* listForTest = deepLCopy(inputList);
+		StudentLP *listForTest = deepLCopy(inputList);
 		StudentLBenchmarkTasks(listForTest);
 		StudentLFree(listForTest);
 	}
 
 	if (StudentTImplemented()) {
-		StudentLP* listForTest = deepLCopy(inputList);
+		StudentLP *listForTest = deepLCopy(inputList);
 		StudentTBenchmark(listForTest);
 		StudentLFree(listForTest);
 	}
 
 	if (StudentMImplemented()) {
-		StudentLP* listForTest = deepLCopy(inputList);
+		StudentLP *listForTest = deepLCopy(inputList);
 		StudentMBenchmark(listForTest);
 		StudentLFree(listForTest);
 	}

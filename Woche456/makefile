@@ -3,8 +3,10 @@ BIN = ./bin/
 SRC = ./src/
 INC = ./src/
 RM = rm -f
-CC = gcc -g
-
+CC = C:\MinGW\bin\gcc.exe
+# CC = C:\MinGW\bin\gcc.exe -g
+# CC = C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.32.31326\bin\Hostx64\x64\cl.exe
+ 
 all: clean $(BIN)dhbwstudent.o $(BIN)dhbwstudentlist.o $(BIN)dhbwstudenttree.o $(BIN)dhbwstudentmap.o $(BIN)dhbwtest.o $(BIN)datastructures.o $(BIN)datastructures
 
 clean:

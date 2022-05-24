@@ -13,12 +13,12 @@
 bool studentoutput = false;
 
 char* toString(Student_p info) {
-	char* string = malloc(sizeof(char) * BUF_SIZE);
+	char *string = malloc(sizeof(char) * BUF_SIZE);
 	snprintf(string, BUF_SIZE, "%06d %s", info->matrnr, info->lastname);
 	return string;
 }
 
-Student_p StudentAlloc(char* info) {
+Student_p StudentAlloc(char *info) {
 	if ((info == NULL) || strlen(info) < MAT_SIZE + 3)
 		return NULL;
 
@@ -29,12 +29,12 @@ Student_p StudentAlloc(char* info) {
 	matrnr_char[MAT_SIZE] = '\0';
 	new->matrnr = atoi(matrnr_char);
 
-	char* lastname_p = &info[MAT_SIZE + 1];
+	char *lastname_p = &info[MAT_SIZE + 1];
 
 	if (studentoutput) {
 		printf("new->matrnr: %s      %d\n", matrnr_char, new->matrnr);
 		printf("Reading.. strlen(lastname_p)=%ld, str=%s\n",
-			strnlen(lastname_p, MAXSIZE), lastname_p);
+				strnlen(lastname_p, MAXSIZE), lastname_p);
 	}
 
 	new->lastname = malloc(sizeof(char) * (strlen(lastname_p)));
@@ -43,8 +43,8 @@ Student_p StudentAlloc(char* info) {
 
 	if (studentoutput) {
 		printf(
-			"Creating student with matrnr %06d and lastname %s at address %ld\n",
-			new->matrnr, new->lastname, new);
+				"Creating student with matrnr %06d and lastname %s at address %ld\n",
+				new->matrnr, new->lastname, new);
 		printf("strlen: %ld\n", strlen(new->lastname));
 	}
 
@@ -54,7 +54,7 @@ Student_p StudentAlloc(char* info) {
 Student_p deepCopy(Student_p info) {
 	if (info == NULL)
 		return NULL;
-	char* formatted = toString(info);
+	char *formatted = toString(info);
 
 	if (studentoutput) {
 		printf("Deep copy of: %s\n", formatted);
@@ -69,8 +69,7 @@ Student_p deepCopy(Student_p info) {
 Student_p shallowCopy(Student_p info) {
 	if (info) {
 		return info;
-	}
-	else {
+	} else {
 		return NULL;
 	}
 }
@@ -79,11 +78,9 @@ Student_p shallowCopy(Student_p info) {
 int StudentEquals(Student_p s1, Student_p s2) {
 	if (s1 == NULL && s2 == NULL) {
 		return true;
-	}
-	else if (s1 != NULL && s2 != NULL) {
-		return (s1->matrnr == s2->matrnr && strcmp(s1->lastname, s2->lastname) == 0);
-	}
-	else {
+	} else if (s1 != NULL && s2 != NULL) {
+		return (s1->matrnr == s2->matrnr && strcmp(s1->lastname, s2->lastname)==0);
+	} else {
 		return false;
 	}
 }
