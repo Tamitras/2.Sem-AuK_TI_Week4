@@ -808,7 +808,7 @@ void StudentLBenchmarkBuiltin(StudentLP *inputList)
 
 void StudentLBenchmarkTasks(StudentLP *inputList)
 {
-	printf("\n\n%s -> StudentLBenchmarkTasks\n", DS_LIST);
+	// printf("\n\n%s -> StudentLBenchmarkTasks\n", DS_LIST);
 	clock_t begin, end;
 
 	StudentLP list_anchor = NULL;
