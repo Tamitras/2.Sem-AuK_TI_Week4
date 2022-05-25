@@ -22,15 +22,13 @@ typedef struct student_l {
 
 } StudentL, *StudentLP;
 
-
-
-//Erzeugt eine Listenzelle mit dem übergebenen Studenten
+//Erzeugt eine Listenzelle mit dem ï¿½bergebenen Studenten
 StudentLP StudentLPAlloc(Student_p newStudent);
 
-//Fügt einen Studenten am Anfang der Liste ein
+//Fï¿½gt einen Studenten am Anfang der Liste ein
 void StudentLInsertFirst(StudentLP* anchor_adr, Student_p newStudent);
 
-//Fügt einen Studenten am Ende der Liste ein
+//Fï¿½gt einen Studenten am Ende der Liste ein
 void StudentLInsertLast(StudentLP* anchor_adr, Student_p newStudent);
 
 //Gibt die Laenge der Liste zurueck
@@ -58,19 +56,19 @@ bool StudentLImplemented();
 //Gibt true zurueck, wenn ein gleicher Student in der Liste enthalten ist
 bool StudentLContainsStudent(StudentLP* anchor_adr, Student_p student);
 
-//Entfernt die Zelle mit dem Studenten aus der Liste und gibt sie zurück
+//Entfernt die Zelle mit dem Studenten aus der Liste und gibt sie zurï¿½ck
 //NULL, falls kein gleicher Student in der Liste ist
 StudentLP StudentLExtractStudent(StudentLP* anchor_adr, Student_p student);
 
-//Findet die Zelle mit dem Studenten aus der Liste und gibt sie zurück
+//Findet die Zelle mit dem Studenten aus der Liste und gibt sie zurï¿½ck
 //NULL, falls kein gleicher Student in der Liste ist
 StudentLP StudentLFindStudent(StudentLP* anchor_adr, Student_p student);
 
-//Findet den ersten Studenten mit der Matrikelnummer und gibt ihn zurück
+//Findet den ersten Studenten mit der Matrikelnummer und gibt ihn zurï¿½ck
 //NULL, falls kein Student mit der Matrikelnummer in der Liste ist
 StudentLP StudentLFindByMatr(StudentLP* anchor_adr, int matrnr);
 
-//Findet den ersten Studenten mit dem Namen und gibt ihn zurück
+//Findet den ersten Studenten mit dem Namen und gibt ihn zurï¿½ck
 //NULL, falls kein Student mit der Matrikelnummer in der Liste ist
 StudentLP StudentLFindByName(StudentLP* anchor_adr, char *lastname);
 

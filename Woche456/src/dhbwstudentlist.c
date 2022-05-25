@@ -15,7 +15,6 @@
 
 StudentLP StudentLPAlloc(Student_p newStudent)
 {
-
 	StudentLP new = malloc(sizeof(StudentL));
 
 	new->student = newStudent;
@@ -34,7 +33,6 @@ void StudentLInsertFirst(StudentLP *anchor_adr, Student_p newStudent)
 
 void StudentLInsertLast(StudentLP *anchor_adr, Student_p newStudent)
 {
-
 	StudentLP current = *anchor_adr;
 	StudentLP previous = NULL;
 
@@ -58,7 +56,6 @@ void StudentLInsertLast(StudentLP *anchor_adr, Student_p newStudent)
 
 int StudentLSize(StudentLP *anchor_adr)
 {
-
 	StudentLP current = *anchor_adr;
 
 	int size = 0;
@@ -84,7 +81,6 @@ void StudentLPFree(StudentLP info)
 
 void StudentLFree(StudentLP *anchor_adr)
 {
-
 	StudentLP current = *anchor_adr;
 
 	while (current)
@@ -128,7 +124,6 @@ StudentLP *deepLCopy(StudentLP *anchor_adr)
 
 StudentLP *StudentsFromFile(char *filename)
 {
-
 	FILE *in = fopen(filename, "r");
 
 	char string[BUF_SIZE];
@@ -139,7 +134,6 @@ StudentLP *StudentsFromFile(char *filename)
 
 	while (fgets(string, BUF_SIZE, in))
 	{
-
 		// remove newline (works for both windows and unix)
 		string[strcspn(string, "\r\n")] = 0;
 
@@ -174,30 +168,403 @@ bool StudentLImplemented()
 
 bool StudentLContainsStudent(StudentLP *anchor_adr, Student_p student)
 {
-	
+	// start from the first link
+	StudentLP current = *anchor_adr;
+
+	// if list is empty
+	if (current == NULL)
+		return NULL;
+
+	// iterate over linked list
+	while (current)
+	{
+		Student_p currentStud = current->student;
+
+		if (strcmp(currentStud->lastname, student->lastname) == 0 && currentStud->matrnr == student->matrnr)
+		{
+			// lastname is equal
+			// matrnr is equal
+			// return current;
+			return true;
+		}
+
+		// NULL if reached the tail
+		if (current->next == NULL)
+			return NULL;
+		else
+			// get next
+			current = current->next;
+	}
+
 	return false;
 }
 
 StudentLP StudentLExtractStudent(StudentLP *anchor_adr, Student_p student)
 {
-	return NULL;
+	// start from the first link
+	StudentLP head = *anchor_adr;
+	StudentLP current = *anchor_adr;
+	StudentLP before = NULL;
+
+	// printf("---------------------------------------------------\n");
+
+	// if list is empty
+	if (current == NULL)
+		return NULL;
+
+	// iterate over linked list
+	while (current)
+	{
+		if (strcmp(current->student->lastname, student->lastname) == 0 && current->student->matrnr == student->matrnr)
+		{
+			// lastname is equal
+			// matrnr is equal
+			// extract
+			StudentLP temp = current;
+			// printf("FoundStud to remove: %d %s\n", temp->student->matrnr, temp->student->lastname);
+
+			if (before)
+			{
+				// printf("BeforeFoundStud: %d %s\n", before->student->matrnr, before->student->lastname);
+				before->next = current->next;
+			}
+			else
+			{
+				// printf("No Before, %d %s is Head\n",temp->student->matrnr, temp->student->lastname);
+				if (current->next)
+				{
+					// printf("New current: %d\n", current->next->student->matrnr);
+					current = current->next;
+
+					// printf("Head old: %d %s\n", (*anchor_adr)->student->matrnr, (*anchor_adr)->student->lastname);
+					*anchor_adr = current;
+					// printf("Head new: %d %s\n", (*anchor_adr)->student->matrnr, (*anchor_adr)->student->lastname);
+				}
+				else
+				{
+					*anchor_adr = NULL;
+				}
+			}
+
+			// printf("Extract Student (Found Stud): %d %s\n", temp->student->matrnr, temp->student->lastname);
+
+			return temp;
+		}
+
+		// NULL if reached the tail
+		if (current->next == NULL)
+		{
+			return NULL;
+		}
+		else
+		{
+			// get next
+			before = current;
+			current = current->next;
+		}
+	}
 }
 
 StudentLP StudentLFindStudent(StudentLP *anchor_adr, Student_p student)
 {
-	return NULL;
+	// start from the first link
+	StudentLP current = *anchor_adr;
+
+	// if list is empty
+	if (current == NULL)
+		return NULL;
+
+	// iterate over linked list
+	while (current)
+	{
+		Student_p currentStud = current->student;
+
+		if (strcmp(currentStud->lastname, student->lastname) == 0 && currentStud->matrnr == student->matrnr)
+		{
+			// lastname is equal
+			// matrnr is equal
+			// return current;
+			return current;
+		}
+
+		// NULL if reached the tail
+		if (current->next == NULL)
+			return NULL;
+		else
+			// get next
+			current = current->next;
+	}
 }
 
 StudentLP StudentLFindByMatr(StudentLP *anchor_adr, int matrnr)
 {
-	return NULL;
+	// start from the first link
+	StudentLP current = *anchor_adr;
+
+	// if list is empty
+	if (current == NULL)
+		return NULL;
+
+	// iterate over linked list
+	while (current)
+	{
+		Student_p currentStud = current->student;
+
+		if (currentStud->matrnr == matrnr)
+			// matrnr is equal
+			return current;
+
+		// NULL if reached the tail
+		if (current->next == NULL)
+			return NULL;
+		else
+			// get next
+			current = current->next;
+	}
 }
 
 StudentLP StudentLFindByName(StudentLP *anchor_adr, char *lastname)
 {
-	return NULL;
+	// start from the first link
+	StudentLP current = *anchor_adr;
+
+	// if list is empty
+	if (current == NULL)
+		return NULL;
+
+	// iterate over linked list
+	while (current)
+	{
+		Student_p currentStud = current->student;
+
+		if (strcmp(currentStud->lastname, lastname) == 0)
+			// matrnr is equal
+			return current;
+
+		// NULL if reached the tail
+		if (current->next == NULL)
+			return NULL;
+		else
+			// get next
+			current = current->next;
+	}
 }
+
+int counter = 0;
+
+// void StudentLInsertSorted(StudentLP *anchor_adr, Student_p newStudent)
+// {
+// 	printf("--------------------------------------\n");
+// 	printf("--------------Insert------------------\n");
+// 	printf("--------------------------------------\n");
+// 	// start from the first link
+// 	StudentLP current = *anchor_adr;
+// 	StudentLP before = NULL;
+
+// 	if (newStudent->matrnr == 0)
+// 	{
+// 		printf("Matrikelnummer darf nicht 0 sein -->  SKIP\n");
+// 		return;
+// 	}
+
+// 	if (*anchor_adr == NULL)
+// 	{
+// 		StudentLInsertFirst(anchor_adr, newStudent);
+// 		printf("\nList is Empty -> Head is now new Student: %d\n", newStudent->matrnr);
+
+// 		return;
+// 	}
+
+// 	// iterate over linked list
+// 	while (current)
+// 	{
+// 		printf("\nCurrent: %d\n\n", current->student->matrnr);
+
+// 		// 1. Check if current has a next
+// 		// -> true -> check if newStudent between current and next
+// 		// -> false->  check if newstudent before current
+
+// 		// NULL if reached the tail
+// 		if (current->next == NULL)
+// 		{
+// 			printf("Current has no Next, Current %d is tail\n", current->student->matrnr);
+// 			printf("Check if newStudent%d < currentStud %d\n", newStudent->matrnr, current->student->matrnr);
+// 			if (newStudent->matrnr < current->student->matrnr)
+// 			{
+// 				printf("true\n");
+
+// 				StudentLP newStud = StudentLPAlloc(newStudent);
+
+// 				if (before == NULL)
+// 				{
+// 					// Set new Stud as new Head of List
+// 					StudentLP oldHead = *anchor_adr;
+// 					*anchor_adr = newStud;
+// 					newStud->next = oldHead;
+
+// 					printf("Current %d no before and no after, so newStud%d is now new head and current%d is now tail\n", current->student->matrnr, newStudent->matrnr, current->student->matrnr);
+// 				}
+// 				else
+// 				{
+// 					before->next = newStud;
+// 				}
+// 			}
+// 			else
+// 			{
+// 				if (StudentLContainsStudent(anchor_adr, newStudent))
+// 				{
+// 					printf("Elemment bereits vorhanden: SKIP\n");
+// 					return;
+// 				}
+// 				else
+// 				{
+// 					printf("false\n");
+// 					printf("InsertLast\n");
+// 					StudentLInsertLast(anchor_adr, newStudent);
+// 				}
+// 			}
+
+// 			return;
+// 		}
+// 		else
+// 		{
+// 			printf("Current has Next %d, Current is not the end\n", current->next->student->matrnr);
+// 			printf("Check if newStudent in between\n");
+// 			if (current->student->matrnr < newStudent->matrnr && current->next->student->matrnr > newStudent->matrnr)
+// 			{
+
+// 				printf("true\n");
+// 				// insert here
+
+// 				printf("Alloc new Student\n");
+// 				StudentLP newStudentLP = StudentLPAlloc(newStudent);
+// 				printf("Allocated Stud: %d\n", newStudent->matrnr);
+
+// 				newStudentLP->next = current->next;
+// 				current->next = newStudentLP;
+// 				printf("Inserted! - Finish -> return\n");
+// 				return;
+// 			}
+
+// 			printf("Check if newStudent%d < currentStud%d \n", newStudent->matrnr, current->student->matrnr);
+// 			if (newStudent->matrnr < current->student->matrnr)
+// 			{
+
+// 				printf("true\n");
+// 				if (before == NULL) // current is head
+// 				{
+// 					printf("before is NULL -> Insert First\n");
+// 					StudentLInsertFirst(anchor_adr, newStudent);
+// 				}
+// 				else
+// 				{
+// 					printf("Alloc new Student\n");
+// 					StudentLP newStudentLP = StudentLPAlloc(newStudent);
+// 					printf("Allocated Stud: %d\n", newStudent->matrnr);
+
+// 					before->next = newStudentLP;
+// 					newStudentLP->next = current;
+// 				}
+
+// 				return;
+// 			}
+// 			else
+// 			{
+// 				printf("false --> next iteration\n");
+// 				// get next
+// 				before = current;
+// 				current = current->next;
+// 			}
+// 		}
+// 	}
+
+// }
 
 void StudentLInsertSorted(StudentLP *anchor_adr, Student_p newStudent)
 {
+	// start from the first link
+	StudentLP current = *anchor_adr;
+	StudentLP before = NULL;
+
+	if (newStudent->matrnr == 0)
+	{
+		return;
+	}
+
+	if (*anchor_adr == NULL)
+	{
+		StudentLInsertFirst(anchor_adr, newStudent);
+		return;
+	}
+
+	// iterate over linked list
+	while (current)
+	{
+		if (current->next == NULL)
+		{
+			if (newStudent->matrnr < current->student->matrnr)
+			{
+				StudentLP newStud = StudentLPAlloc(newStudent);
+
+				if (before == NULL)
+				{
+					// Set new Stud as new Head of List
+					StudentLP oldHead = *anchor_adr;
+					*anchor_adr = newStud;
+					newStud->next = oldHead;
+				}
+				else
+				{
+					before->next = newStud;
+				}
+			}
+			else
+			{
+				if (StudentLContainsStudent(anchor_adr, newStudent))
+				{
+					return;
+				}
+				else
+				{
+					StudentLInsertLast(anchor_adr, newStudent);
+				}
+			}
+
+			return;
+		}
+		else
+		{
+			if (current->student->matrnr < newStudent->matrnr && current->next->student->matrnr > newStudent->matrnr)
+			{
+				StudentLP newStudentLP = StudentLPAlloc(newStudent);
+
+				newStudentLP->next = current->next;
+				current->next = newStudentLP;
+				return;
+			}
+
+			if (newStudent->matrnr < current->student->matrnr)
+			{
+				if (before == NULL) // current is head
+				{
+					StudentLInsertFirst(anchor_adr, newStudent);
+				}
+				else
+				{
+					StudentLP newStudentLP = StudentLPAlloc(newStudent);
+
+					before->next = newStudentLP;
+					newStudentLP->next = current;
+				}
+
+				return;
+			}
+			else
+			{
+				// get next
+				before = current;
+				current = current->next;
+			}
+		}
+	}
 }

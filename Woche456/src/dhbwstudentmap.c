@@ -51,7 +51,7 @@ int dumbHashByMatr(Student_p student, int maxsize) {
 
 bool StudentMImplemented() {
 	//TODO: hier auf true aendern, damit Ihre Implementierung getestet wird
-	return true;
+	return false;
 }
 int hashByMatr(Student_p student, int maxsize) {
 	return -1;

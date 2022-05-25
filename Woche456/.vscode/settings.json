@@ -6,5 +6,8 @@
             "binaryPath": "e:\\Dev\\Studium\\Test\\Woche456\\bin\\datastructures",
             "binaryArgs": []
         }
-    ]
+    ],
+    "files.associations": {
+        "dhbwstudentlist.h": "c"
+    }
 }
